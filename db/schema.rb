@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161126124351) do
+ActiveRecord::Schema.define(version: 20161126131349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,21 @@ ActiveRecord::Schema.define(version: 20161126124351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "amandmen", force: :cascade do |t|
+    t.date     "date"
+    t.string   "type",        default: "wait"
+    t.text     "content"
+    t.text     "explanation"
+    t.integer  "rating"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "user_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "amandmen", ["owner_type", "owner_id"], name: "index_amandmen_on_owner_type_and_owner_id", using: :btree
 
   create_table "clauses", force: :cascade do |t|
     t.string   "name"
@@ -47,6 +62,7 @@ ActiveRecord::Schema.define(version: 20161126124351) do
 
   create_table "heads", force: :cascade do |t|
     t.string   "name"
+    t.string   "type"
     t.integer  "act_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
