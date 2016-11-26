@@ -16,6 +16,7 @@ gem 'omniauth-facebook'
 gem 'kaminari'
 gem 'ransack'
 gem 'dynamic_form'
+gem 'activedocument'
 
 group :development, :test do
 	gem 'byebug'
