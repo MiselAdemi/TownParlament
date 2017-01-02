@@ -8,4 +8,8 @@
 
 Role.create!(name: 'citizen')
 Role.create!(name: 'alderman')
-Role.create!(name: 'assembly_president'
+Role.create!(name: 'assembly_president')
+
+@act = Act.create(:preambula => "test", :name => "blabla")
+
+Head.create(:act => @act, :name => "test_head")
