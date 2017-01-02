@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  resources :acts
+  resources :acts, :amandments
 
   root to: "home#index"
 end

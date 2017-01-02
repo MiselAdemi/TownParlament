@@ -1,4 +1,4 @@
 class Regulation < ActiveRecord::Base
   belongs_to :head
-  has_many :subject, :dependent => :destroy
+  has_many :subjects, :dependent => :destroy
 end

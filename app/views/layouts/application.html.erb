@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>TownParlament</title>
-		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-		<%= csrf_meta_tags %>
-	</head>
-	<body>
+  <head>
+    <title>TownParlament</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
 
-		<% if user_signed_in? %>
-			<li><%= link_to "All Acts", home_acts_path %></li>
-			<li><a href="#">New act</a></li>
+    <% if user_signed_in? %>
+      <li><%= link_to "All Acts", acts_path %></li>
+      <li><%= link_to "New Act", new_act_path %></li>
 
-			<% if !current_user.citizen? %>
-				<li><a href="#">All Amandments</a></li>
-				<li><a href="#">New Amandment</a></li>
-			<% end %>
+      <% if !current_user.citizen? %>
+        <li><a href="#">All Amandments</a></li>
+        <li><a href="#">New Amandment</a></li>
 
-			<li><%= link_to "Account settings", edit_user_registration_path %></li>
-			<% if current_user.admin? %>
-				<li><%= link_to "Admin", admin_path %></li>
-			<% end %>
-			<li><%= link_to "Sign out", destroy_user_session_path %></li>
-		<% else %>
-			<li><%= link_to "Sign up", new_user_registration_path %></li>
-			<li><%= link_to "Sign in", new_user_session_path %></li>
-		<% end -%>
+        <li><%= link_to "All Amandments", amandments_path %></li>
+        <li><%= link_to "New Amandment", new_amandment_path %></li>
+      <% end %>
 
-		<%= yield %>
+      <li><%= link_to "Account settings", edit_user_registration_path %></li>
+      <% if current_user.admin? %>
+        <li><%= link_to "Admin", admin_path %></li>
+      <% end %>
+      <li><%= link_to "Sign out", destroy_user_session_path %></li>
+    <% else %>
+      <li><%= link_to "Sign up", new_user_registration_path %></li>
+      <li><%= link_to "Sign in", new_user_session_path %></li>
+    <% end -%>
 
-	</body>
+    <%= yield %>
+
+  </body>
 </html>
