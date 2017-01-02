@@ -17,14 +17,17 @@ ActiveRecord::Schema.define(version: 20161126131349) do
   enable_extension "plpgsql"
 
   create_table "acts", force: :cascade do |t|
-    t.string   "preambula"
+    t.text     "preambula"
     t.string   "name"
     t.string   "state"
     t.string   "city"
     t.date     "date"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "acts", ["user_id"], name: "index_acts_on_user_id", using: :btree
 
   create_table "amandmen", force: :cascade do |t|
     t.date     "date"
