@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
-  namespace :admin do resources :users end
-  get 'home/index'
-
   devise_for :users
   get "home/index"
+  get "home/acts"
+  get "home/show"
 
   get "/admin" => "admin/base#index", :as => "admin"
 
   namespace "admin" do
-
     resources :users
-
   end
+
+  resources :acts
 
   root to: "home#index"
 end
