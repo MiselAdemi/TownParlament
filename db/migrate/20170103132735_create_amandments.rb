@@ -1,4 +1,4 @@
-class CreateAmandmen < ActiveRecord::Migration
+class CreateAmandments < ActiveRecord::Migration
   def change
     create_table :amandments do |t|
       t.date :date
