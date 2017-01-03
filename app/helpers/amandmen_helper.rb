@@ -1,0 +1,2 @@
+module AmandmenHelper
+end
