@@ -17,6 +17,7 @@ gem 'kaminari'
 gem 'ransack'
 gem 'dynamic_form'
 gem 'activedocument'
+gem 'rails-assets-bootstrap', source: 'https://rails-assets.org'
 
 group :development, :test do
 	gem 'byebug'

@@ -11,6 +11,8 @@ class ActsController < ApplicationController
   # GET /acts/1.json
   def show
     @akt = Act.find(params[:id])
+    @akt.status="approved"
+    @akt.save
     @client = Connection::MarkLogic.client
     @akt_xml = Transform::ToXml.transform(@akt)
 
