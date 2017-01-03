@@ -13,6 +13,7 @@ class ActsController < ApplicationController
     @akt = Act.find(params[:id])
     @akt.status="approved"
     @akt.save
+    @aktlink = "http://147.91.177.194:8000/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml"
     @client = Connection::MarkLogic.client
     @akt_xml = Transform::ToXml.transform(@akt)
 
@@ -97,6 +98,29 @@ class ActsController < ApplicationController
 
   def destroy_regulation
     Regulation.find_by_id(params[:id]).destroy
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def prepare_subject
+    @regulation = Regulation.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_subject
+    @subject = Subject.create(name: params[:subject][:name], regulation_id: params[:subject][:regulation_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_subject
+    Subject.find_by_id(params[:id]).destroy
+
     respond_to do |format|
       format.js
     end

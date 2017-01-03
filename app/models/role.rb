@@ -13,7 +13,7 @@ class Role < ActiveRecord::Base
     find_or_create_by(:name => "alderman")
   end
 
-  def self.assebly_president
-    find_or_create_by(:name => "assebly_president")
+  def self.assembly_president
+    find_or_create_by(:name => "assembly_president")
   end
 end

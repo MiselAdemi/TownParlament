@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AmandmanTest < ActiveSupport::TestCase
+class AmandmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
