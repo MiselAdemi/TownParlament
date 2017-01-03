@@ -1,0 +1,1 @@
+json.partial! "amandmen/amandman", amandman: @amandman
