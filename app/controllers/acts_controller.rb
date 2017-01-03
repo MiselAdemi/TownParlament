@@ -16,8 +16,8 @@ class ActsController < ApplicationController
 
     @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml", :put, @akt_xml.to_s)
 
-    #@act = @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml")
-    #@act  = Nokogiri::XML(@act)
+    @act = @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml")
+    @act  = Nokogiri::XML(@act)
   end
 
   # GET /acts/new
@@ -34,28 +34,20 @@ class ActsController < ApplicationController
   def create
     @act = Act.new(act_params)
 
-    respond_to do |format|
-      if @act.save
-        format.html { redirect_to @act, notice: 'Act was successfully created.' }
-        format.json { render :show, status: :created, location: @act }
-      else
-        format.html { render :new }
-        format.json { render json: @act.errors, status: :unprocessable_entity }
-      end
+    if @act.save
+      redirect_to @act, notice: 'Act was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /acts/1
   # PATCH/PUT /acts/1.json
   def update
-    respond_to do |format|
-      if @act.update(act_params)
-        format.html { redirect_to @act, notice: 'Act was successfully updated.' }
-        format.json { render :show, status: :ok, location: @act }
-      else
-        format.html { render :edit }
-        format.json { render json: @act.errors, status: :unprocessable_entity }
-      end
+    if @act.update(act_params)
+      redirect_to @act, notice: 'Act was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -69,6 +61,45 @@ class ActsController < ApplicationController
     redirect_to acts_url, notice: 'Act was successfully destroyed.'
   end
 
+  def create_head_intro
+    @head = Head.create(category: params[:head][:category], name: params[:head][:name])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_head
+    # destroy heds here
+    Head.find_by_id(params[:id]).destroy
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def prepare_regulation
+    @head = Head.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_regulation
+    @regulation = Regulation.create(name: params[:regulation][:name],
+                                    definition: params[:regulation][:definition],
+                                    head_id: params[:regulation][:head_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_regulation
+    Regulation.find_by_id(params[:id]).destroy
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_act
@@ -77,7 +108,7 @@ class ActsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def act_params
-    params.fetch(:act, {})
+    params.require(:act).permit(:state, :name, :city, :date, :preambula)
   end
 
   def to_s
