@@ -22,5 +22,7 @@ Rails.application.routes.draw do
   post '/create_subject', to: 'acts#create_subject'
   delete '/destroy_subject', to: 'acts#destroy_subject'
 
+  get :search, to: 'search#index'
+
   root to: "home#index"
 end

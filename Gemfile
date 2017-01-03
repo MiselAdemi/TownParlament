@@ -14,7 +14,6 @@ gem 'devise', '~> 3.4.0'
 
 gem 'omniauth-facebook'
 gem 'kaminari'
-gem 'ransack'
 gem 'dynamic_form'
 gem 'activedocument'
 gem 'rails-assets-bootstrap', source: 'https://rails-assets.org'

@@ -4,7 +4,13 @@ class ActsController < ApplicationController
   # GET /acts
   # GET /acts.json
   def index
-    @acts = Act.all
+    if current_user.assembly_president?
+      @acts = Act.all
+    elsif current_user.alderman?
+      @acts = Act.where(:user_id => current_user.id)
+    else current_user.citizen?
+      @acts = Act.where(:status => "approved")
+    end
   end
 
   # GET /acts/1
