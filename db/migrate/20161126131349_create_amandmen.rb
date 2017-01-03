@@ -1,6 +1,6 @@
 class CreateAmandmen < ActiveRecord::Migration
   def change
-    create_table :amandmen do |t|
+    create_table :amandments do |t|
       t.date :date
       t.string :type, :default => "wait"
       t.text :content

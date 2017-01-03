@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   resources :amandmen
   devise_for :users
   get "home/index"
-  get "home/acts"
-  get "home/show"
+  get "home/meeting"
 
   get "/admin" => "admin/base#index", :as => "admin"
 

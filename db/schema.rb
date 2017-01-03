@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102172018) do
+ActiveRecord::Schema.define(version: 20170103125050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,11 +25,12 @@ ActiveRecord::Schema.define(version: 20170102172018) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "status"
   end
 
   add_index "acts", ["user_id"], name: "index_acts_on_user_id", using: :btree
 
-  create_table "amandmen", force: :cascade do |t|
+  create_table "amandments", force: :cascade do |t|
     t.date     "date"
     t.string   "type",        default: "wait"
     t.text     "content"
@@ -40,9 +41,10 @@ ActiveRecord::Schema.define(version: 20170102172018) do
     t.integer  "user_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "status"
   end
 
-  add_index "amandmen", ["owner_type", "owner_id"], name: "index_amandmen_on_owner_type_and_owner_id", using: :btree
+  add_index "amandments", ["owner_type", "owner_id"], name: "index_amandments_on_owner_type_and_owner_id", using: :btree
 
   create_table "clauses", force: :cascade do |t|
     t.string   "name"
@@ -72,6 +74,12 @@ ActiveRecord::Schema.define(version: 20170102172018) do
   end
 
   add_index "heads", ["act_id"], name: "index_heads_on_act_id", using: :btree
+
+  create_table "meetings", force: :cascade do |t|
+    t.boolean  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "paragraphs", force: :cascade do |t|
     t.text     "content"
