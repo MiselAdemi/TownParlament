@@ -33,6 +33,7 @@ class ActsController < ApplicationController
   # GET /acts/new
   def new
     @act = Act.new
+		init_heads
   end
 
   # GET /acts/1/edit
@@ -45,6 +46,9 @@ class ActsController < ApplicationController
     @act = Act.new(act_params)
 
     if @act.save
+      session[:heads].each do |head_id|
+        Head.find_by_id(head_id).update(act_id: @act.id)
+      end
       redirect_to @act, notice: 'Act was successfully created.'
     else
       render :new
@@ -73,6 +77,7 @@ class ActsController < ApplicationController
 
   def create_head_intro
     @head = Head.create(category: params[:head][:category], name: params[:head][:name])
+    add_head_id(@head.id)
     respond_to do |format|
       format.js
     end
@@ -80,7 +85,8 @@ class ActsController < ApplicationController
 
   def destroy_head
     # destroy heds here
-    Head.find_by_id(params[:id]).destroy
+    @head = Head.find_by_id(params[:id]).destroy
+    remove_head_id(@head.id)
     respond_to do |format|
       format.js
     end
@@ -260,27 +266,35 @@ class ActsController < ApplicationController
       format.js
     end
   end
-end
-                end
-              end
-    end
 
-    private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_act
-      @act = Act.find(params[:id])
-    end
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_act
+    @act = Act.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def act_params
-      params.require(:act).permit(:state, :name, :city, :date, :preambula)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def act_params
+    params.require(:act).permit(:state, :name, :city, :date, :preambula)
+  end
 
-    def to_s
-      if @document
-        @document.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
-      else
-        super.to_s
-      end
+  def to_s
+    if @document
+      @document.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+    else
+      super.to_s
     end
+  end
+
+  def init_heads
+    session[:heads] = []
+  end
+
+  def add_head_id(id)
+    session[:heads] << id
+  end
+
+  def remove_head_id(id)
+    session[:heads].delete(id)
+  end
 end
