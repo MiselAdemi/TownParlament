@@ -1,5 +1,7 @@
 <h1>New Amandman</h1>
 
-<%= render 'form' %>
+<% if !@meeting.status? %>
+  <%= render 'form' %>
+<% end %>
 
 <%= link_to 'Back', amandmen_path %>

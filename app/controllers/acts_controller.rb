@@ -18,26 +18,26 @@ class ActsController < ApplicationController
   # GET /acts/1.json
   def show
     @akt = Act.find(params[:id])
-    @akt.status="approved"
-    @akt.save
-    @aktlink = "http://147.91.177.194:8000/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml"
+    @aktlink = "http://localhost:8020/v1/documents?uri=/test/#{@akt.name}.xml"
     @client = Connection::MarkLogic.client
+
     @akt_xml = Transform::ToXml.transform(@akt)
+    @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml", :put, @akt_xml.to_s)
 
-    @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml", :put, @akt_xml.to_s)
-
-    @act = @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml")
+    @act = @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml")
     @act  = Nokogiri::XML(@act)
   end
 
   # GET /acts/new
   def new
     @act = Act.new
-		init_heads
+    @meeting = Meeting.find(1)
+    init_heads
   end
 
   # GET /acts/1/edit
   def edit
+    @amandment = Amandment.new
   end
 
   # POST /acts
@@ -58,10 +58,12 @@ class ActsController < ApplicationController
   # PATCH/PUT /acts/1
   # PATCH/PUT /acts/1.json
   def update
-    if @act.update(act_params)
-      redirect_to @act, notice: 'Act was successfully updated.'
-    else
-      render :edit
+    @act_new = @act.dup
+    @act_new.save
+    @act_new.update(act_params)
+
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -70,13 +72,19 @@ class ActsController < ApplicationController
   def destroy
     @akt = Act.find(params[:id])
     @client = Connection::MarkLogic.client
-    @client.send_corona_request("/v1/documents?database=Tim23&uri=/test/#{@akt.name}.xml", :delete)
+    @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml", :delete)
     @act.destroy
     redirect_to acts_url, notice: 'Act was successfully destroyed.'
   end
 
   def create_head_intro
-    @head = Head.create(category: params[:head][:category], name: params[:head][:name])
+    if params[:head][:act_id]
+      @head = Head.create(category: params[:head][:category], name: params[:head][:name], act_id: params[:head][:act_id])
+
+    else
+      @head = Head.create(category: params[:head][:category], name: params[:head][:name])
+    end
+
     add_head_id(@head.id)
     respond_to do |format|
       format.js

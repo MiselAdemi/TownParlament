@@ -15,6 +15,7 @@ class AmandmenController < ApplicationController
   # GET /amandmen/new
   def new
     @amandman = Amandman.new
+    @meeting = Meeting.find(1)
   end
 
   # GET /amandmen/1/edit
@@ -69,6 +70,6 @@ class AmandmenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def amandman_params
-      params.fetch(:amandman, {})
+      params.require(:amandment).permit(:date, :content, :explanation, :rating, :act_id, :owner_id)
     end
 end

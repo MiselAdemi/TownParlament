@@ -1,6 +1,6 @@
 class Amandment < ActiveRecord::Base
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  #include Elasticsearch::Model::Callbacks
 
   TYPE = ["wait", "accepted", "declined"]
 

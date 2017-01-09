@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20170109164057) do
     t.integer  "user_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.string   "status"
     t.integer  "act_id"
+    t.string   "status"
   end
 
   add_index "amandments", ["act_id"], name: "index_amandments_on_act_id", using: :btree
