@@ -30,6 +30,10 @@ Rails.application.routes.draw do
   post '/create_stance', to: 'acts#create_stance'
   delete '/destroy_stance', to: 'acts#destroy_stance'
 
+	post '/prepare_dot', to: 'acts#prepare_dot'
+ 	post '/create_dot', to: 'acts#create_dot'
+ 	delete '/destroy_dot', to: 'acts#destroy_dot'
+
   get :search, to: 'search#index'
   get :perform_search, to: 'search#perform'
 

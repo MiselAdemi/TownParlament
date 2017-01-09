@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
 	def index
+		@result = nil
 	end
 
 	def perform
