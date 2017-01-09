@@ -14,19 +14,20 @@ gem 'devise', '~> 3.4.0'
 
 gem 'omniauth-facebook'
 gem 'kaminari'
-gem 'ransack'
 gem 'dynamic_form'
 gem 'activedocument'
 gem 'rails-assets-bootstrap', source: 'https://rails-assets.org'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 group :development, :test do
-	gem 'byebug'
-	gem 'web-console', '~> 2.0'
-	gem 'spring'
+  gem 'byebug'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
 group :development do
-	gem 'chronic'
-	gem 'admin_view'
-	gem 'better_errors'
+  gem 'chronic'
+  gem 'admin_view'
+  gem 'better_errors'
 end

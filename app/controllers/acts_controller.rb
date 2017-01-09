@@ -1,10 +1,17 @@
 class ActsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_act, only: [:show, :edit, :update, :destroy]
 
   # GET /acts
   # GET /acts.json
   def index
-    @acts = Act.all
+    if current_user.assembly_president?
+      @acts = Act.all
+    elsif current_user.alderman?
+      @acts = Act.where(:user_id => current_user.id)
+    else current_user.citizen?
+      @acts = Act.where(:status => "approved")
+    end
   end
 
   # GET /acts/1
@@ -125,6 +132,83 @@ class ActsController < ApplicationController
       format.js
     end
   end
+
+  def prepare_clause
+    @subject = Subject.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_clause
+    @clause = Clause.create(name: params[:clause][:name],
+                            subject_id: params[:clause][:subject_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_clause
+    Clause.find_by_id(params[:id]).destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def prepare_stance
+    @clause = Clause.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_stance
+    @stance = Stance.create(name: params[:stance][:name],
+                            content: params[:stance][:content],
+                            clause_id: params[:stance][:clause_id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_stance
+    Stance.find_by_id(params[:id]).destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def prepare_dot
+    @stance = Stance.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_dot
+    @dot = Dot.create(name: params[:dot][:name],
+                      content: params[:dot][:content],
+                      stance_id: params[:dot][:stance_id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_dot
+    Dot.find_by_id(params[:id]).destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

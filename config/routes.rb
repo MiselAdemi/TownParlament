@@ -22,5 +22,20 @@ Rails.application.routes.draw do
   post '/create_subject', to: 'acts#create_subject'
   delete '/destroy_subject', to: 'acts#destroy_subject'
 
+  post '/prepare_clause', to: 'acts#prepare_clause'
+  post '/create_clause', to: 'acts#create_clause'
+  delete '/destroy_clause', to: 'acts#destroy_clause'
+
+  post '/prepare_stance', to: 'acts#prepare_stance'
+  post '/create_stance', to: 'acts#create_stance'
+  delete '/destroy_stance', to: 'acts#destroy_stance'
+
+	post '/prepare_dot', to: 'acts#prepare_dot'
+ 	post '/create_dot', to: 'acts#create_dot'
+ 	delete '/destroy_dot', to: 'acts#destroy_dot'
+
+  get :search, to: 'search#index'
+  get :perform_search, to: 'search#perform'
+
   root to: "home#index"
 end
