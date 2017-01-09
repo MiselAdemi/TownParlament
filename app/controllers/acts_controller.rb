@@ -33,6 +33,7 @@ class ActsController < ApplicationController
   # GET /acts/new
   def new
     @act = Act.new
+		init_heads
   end
 
   # GET /acts/1/edit
@@ -45,6 +46,9 @@ class ActsController < ApplicationController
     @act = Act.new(act_params)
 
     if @act.save
+      session[:heads].each do |head_id|
+        Head.find_by_id(head_id).update(act_id: @act.id)
+      end
       redirect_to @act, notice: 'Act was successfully created.'
     else
       render :new
@@ -73,6 +77,7 @@ class ActsController < ApplicationController
 
   def create_head_intro
     @head = Head.create(category: params[:head][:category], name: params[:head][:name])
+    add_head_id(@head.id)
     respond_to do |format|
       format.js
     end
@@ -80,7 +85,8 @@ class ActsController < ApplicationController
 
   def destroy_head
     # destroy heds here
-    Head.find_by_id(params[:id]).destroy
+    @head = Head.find_by_id(params[:id]).destroy
+    remove_head_id(@head.id)
     respond_to do |format|
       format.js
     end
@@ -209,6 +215,57 @@ class ActsController < ApplicationController
     end
   end
 
+  def prepare_subdot
+    @dot = Dot.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_subdot
+    @subdot = Subdot.create(name: params[:subdot][:name],
+                            content: params[:subdot][:content],
+                            dot_id: params[:subdot][:dot_id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_subdot
+    Subdot.find_by_id(params[:id]).destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def prepare_paragraph
+    @subdot = Subdot.find_by_id(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create_paragraph
+    @paragraph = Paragraph.create(name: params[:paragraph][:name],
+                                  content: params[:paragraph][:content],
+                                  subdot_id: params[:paragraph][:subdot_id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def destroy_paragraph
+    Paragraph.find_by_id(params[:id]).destroy
+
+    respond_to do |format|
+      format.js
+    end
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.
@@ -227,5 +284,17 @@ class ActsController < ApplicationController
     else
       super.to_s
     end
+  end
+
+  def init_heads
+    session[:heads] = []
+  end
+
+  def add_head_id(id)
+    session[:heads] << id
+  end
+
+  def remove_head_id(id)
+    session[:heads].delete(id)
   end
 end
