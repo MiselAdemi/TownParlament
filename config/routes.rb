@@ -34,6 +34,10 @@ Rails.application.routes.draw do
  	post '/create_dot', to: 'acts#create_dot'
  	delete '/destroy_dot', to: 'acts#destroy_dot'
 
+  post '/prepare_subdot', to: 'acts#prepare_subdot'
+  post '/create_subdot', to: 'acts#create_subdot'
+  delete '/destroy_subdot', to: 'acts#destroy_subdot'
+
   get :search, to: 'search#index'
   get :perform_search, to: 'search#perform'
 
