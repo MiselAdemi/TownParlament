@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   post '/create_clause', to: 'acts#create_clause'
   delete '/destroy_clause', to: 'acts#destroy_clause'
 
+  post '/prepare_stance', to: 'acts#prepare_stance'
+  post '/create_stance', to: 'acts#create_stance'
+  delete '/destroy_stance', to: 'acts#destroy_stance'
+
   get :search, to: 'search#index'
 
   root to: "home#index"
