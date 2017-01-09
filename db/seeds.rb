@@ -95,6 +95,5 @@ end
 end
 @act.save
 
-xml_classes = [Act, Head, Regulation, Subject, Clause, Dot, Paragraph, Stance, Subdot]
-xml_classes.each { |c| c.__elasticsearch__.create_index! force: true }
-xml_classes.each { |c| c.__elasticsearch__.import }
+Searchable.create_indexes
+Searchable.import_data

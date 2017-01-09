@@ -12,7 +12,7 @@
 		<% if user_signed_in? %>
 			<li><%= link_to "All Acts", acts_path %></li>
 			<li><%= link_to "New Act", new_act_path %></li>
-      <li><%= link_to "Search", home_meeting_path %></li>
+      <li><%= link_to "Search", search_path %></li>
 
 			<% if !current_user.citizen? %>
 				<li><%= link_to "All Amandments", amandments_path %></li>
