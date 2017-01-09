@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   delete '/destroy_stance', to: 'acts#destroy_stance'
 
   get :search, to: 'search#index'
+  get :perform_search, to: 'search#perform'
 
   root to: "home#index"
 end
