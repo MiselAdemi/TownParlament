@@ -5,12 +5,10 @@ class ActsController < ApplicationController
   # GET /acts
   # GET /acts.json
   def index
-    if current_user.assembly_president?
-      @acts = Act.all
-    elsif current_user.alderman?
-      @acts = Act.where(:user_id => current_user.id)
-    else current_user.citizen?
+    if current_user.citizen?
       @acts = Act.where(:status => "approved")
+    else
+      @acts = Act.all
     end
   end
 
@@ -18,26 +16,30 @@ class ActsController < ApplicationController
   # GET /acts/1.json
   def show
     @akt = Act.find(params[:id])
-    @aktlink = "http://localhost:8020/v1/documents?uri=/test/#{@akt.name}.xml"
+    @aktlink = "http://localhost:8020#{Connection::MarkLogic.new.acts_uri(@akt)}"
     @client = Connection::MarkLogic.client
 
-    @akt_xml = Transform::ToXml.transform(@akt)
-    @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml", :put, @akt_xml.to_s)
+    mark_logic = Connection::MarkLogic.new
+    act_from_ml = mark_logic.download_act(@akt)
 
-    @act = @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml")
-    @act  = Nokogiri::XML(@act)
+    @act = Nokogiri::XML(act_from_ml)
+  rescue
+    @act = Transform::ToXml.transform(@akt)
   end
 
   # GET /acts/new
   def new
     @act = Act.new
     @meeting = Meeting.find(1)
+    redirect_to root_path, notice: 'You cannot add new act when Session is in progress!' and return if @meeting.status
     init_heads
   end
 
   # GET /acts/1/edit
   def edit
     @amandment = Amandment.new
+    @meeting = Meeting.find(1)
+    redirect_to acts_path, notice: 'You cannot edit act when Session is in progress!' and return if @meeting.status
   end
 
   # POST /acts
@@ -49,6 +51,12 @@ class ActsController < ApplicationController
       session[:heads].each do |head_id|
         Head.find_by_id(head_id).update(act_id: @act.id)
       end
+
+      act_xml = Transform::ToXml.transform(@act).to_s
+
+      mark_logic = Connection::MarkLogic.new
+      mark_logic.upload_act(@act, act_xml)
+
       redirect_to @act, notice: 'Act was successfully created.'
     else
       render :new
@@ -62,6 +70,54 @@ class ActsController < ApplicationController
     @act_new.save
     @act_new.update(act_params)
 
+    @act.heads.each do |head|
+      head_new = head.dup
+      head_new.act_id = @act_new.id
+      head_new.save!
+
+      head.regulations.each do |regulation|
+        regulation_new = regulation.dup
+        regulation_new.head_id = head_new.id
+        regulation_new.save!
+
+        regulation.subjects.each do |subject|
+          subject_new = subject.dup
+          subject_new.regulation_id = regulation_new.id
+          subject_new.save!
+
+          subject.clauses.each do |clause|
+            clause_new = clause.dup
+            clause_new.subject_id = subject_new.id
+            clause_new.save!
+
+            clause.stances.each do |stance|
+              stance_new = stance.dup
+              stance_new.clause_id = clause_new.id
+              stance_new.save!
+
+              stance.dots.each do |dot|
+                dot_new = dot.dup
+                dot_new.stance_id = stance_new.id
+                dot_new.save!
+
+                dot.subdots.each do |subdot|
+                  subdot_new = subdot.dup
+                  subdot_new.dot_id = dot_new.id
+                  subdot_new.save!
+
+                  subdot.paragraphs.each do |paragraph|
+                    paragraph_new = paragraph.dup
+                    paragraph_new.subdot_id = subdot_new.id
+                    paragraph_new.save!
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
     respond_to do |format|
       format.js
     end
@@ -71,8 +127,8 @@ class ActsController < ApplicationController
   # DELETE /acts/1.json
   def destroy
     @akt = Act.find(params[:id])
-    @client = Connection::MarkLogic.client
-    @client.send_corona_request("/v1/documents?uri=/test/#{@akt.name}.xml", :delete)
+    client = Connection::MarkLogic.new.client
+    client.send_corona_request("/v1/documents?uri=/acts/act_#{@akt.id}.xml", :delete)
     @act.destroy
     redirect_to acts_url, notice: 'Act was successfully destroyed.'
   end
