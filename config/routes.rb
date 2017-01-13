@@ -10,7 +10,13 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  resources :acts, :amandments
+  resources :acts do
+    # HTML AND PDF
+    get '/html', to: 'acts#html'
+    get '/pdf', to: 'acts#pdf'
+  end
+  resources :amandments
+
   post '/create_head_intro', to: 'acts#create_head_intro'
   delete '/destroy_head', to:'acts#destroy_head'
 
@@ -30,9 +36,9 @@ Rails.application.routes.draw do
   post '/create_stance', to: 'acts#create_stance'
   delete '/destroy_stance', to: 'acts#destroy_stance'
 
-	post '/prepare_dot', to: 'acts#prepare_dot'
- 	post '/create_dot', to: 'acts#create_dot'
- 	delete '/destroy_dot', to: 'acts#destroy_dot'
+  post '/prepare_dot', to: 'acts#prepare_dot'
+  post '/create_dot', to: 'acts#create_dot'
+  delete '/destroy_dot', to: 'acts#destroy_dot'
 
   post '/prepare_subdot', to: 'acts#prepare_subdot'
   post '/create_subdot', to: 'acts#create_subdot'

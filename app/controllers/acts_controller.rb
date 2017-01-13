@@ -275,6 +275,23 @@ class ActsController < ApplicationController
     end
   end
 
+  def html
+    @act = Act.find_by_id(params[:act_id])
+  end
+
+  def pdf
+    @act = Act.find_by_id(params[:act_id])
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "#{@act.name}-#{@act.date}",
+        template: '/acts/pdf'
+      end
+
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_act
