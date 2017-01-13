@@ -54,9 +54,7 @@
   </table>
 
   <br>
-
-  <% if current_user.alderman? %>
-    <%= link_to('<button type="button" class="btn btn-primary">New Act</button>'.html_safe, new_act_path) %>
-  <% end %>
-
-<% end %><%= link_to('<button type="button" class="btn btn-primary">New Act</button>'.html_safe, new_act_path) %>
+<% end %>
+<% if current_user.alderman? %>
+  <%= link_to('<button type="button" class="btn btn-primary">New Act</button>'.html_safe, new_act_path) %>
+<% end %>
