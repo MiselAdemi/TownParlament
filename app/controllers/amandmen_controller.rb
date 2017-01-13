@@ -10,6 +10,8 @@ class AmandmenController < ApplicationController
   # GET /amandmen/1
   # GET /amandmen/1.json
   def show
+    @act = Act.find(@amandment.owner_id)
+    redirect_to @act
   end
 
   # GET /amandmen/new
@@ -26,6 +28,7 @@ class AmandmenController < ApplicationController
   # POST /amandmen.json
   def create
     @amandman = Amandman.new(amandman_params)
+    @amandment.user = current_user
 
     respond_to do |format|
       if @amandman.save

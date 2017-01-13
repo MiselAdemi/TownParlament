@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :amandmen
   devise_for :users
+  root :to => "home#index"
   get "home/index"
   get "home/meeting"
 
@@ -50,6 +50,4 @@ Rails.application.routes.draw do
 
   get :search, to: 'search#index'
   get :perform_search, to: 'search#perform'
-
-  root to: "home#index"
 end

@@ -4,5 +4,5 @@ class Act < ActiveRecord::Base
 
   belongs_to :user
   has_many :heads, :dependent => :destroy
-  has_many :amandments
+  has_many :amandments, :dependent => :destroy
 end
