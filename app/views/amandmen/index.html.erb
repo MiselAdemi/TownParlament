@@ -1,20 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Amandmen</h1>
+<h1>Listing Amandments</h1>
 
 <table>
   <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
+    <th style="width: 70%">Amandment name</th>
+    <th style="width: 5%">Show</th>
+    <th style="width: 5%">Destroy</th>
   </thead>
 
   <tbody>
-    <% @amandmen.each do |amandman| %>
+    <% @amandments.each do |amandment| %>
       <tr>
-        <td><%= link_to 'Show', amandman %></td>
-        <td><%= link_to 'Edit', edit_amandman_path(amandman) %></td>
-        <td><%= link_to 'Destroy', amandman, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= amandment.explanation %></td>
+        <td><%= link_to('<button type="button" class="btn btn-info">Show</button>'.html_safe, amandment) %></td>
+        <td><%= link_to('<button type="button" class="btn btn-danger">Destroy</button>'.html_safe, amandment, method: :delete, data: { confirm: 'Are you sure?' }) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +22,4 @@
 
 <br>
 
-<%= link_to 'New Amandman', new_amandman_path %>
+<%= link_to('<button type="button" class="btn btn-primary">New Amandment</button>'.html_safe, new_amandment_path) %>
