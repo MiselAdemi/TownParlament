@@ -19,6 +19,8 @@ gem 'activedocument'
 gem 'rails-assets-bootstrap', source: 'https://rails-assets.org'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :development, :test do
   gem 'byebug'

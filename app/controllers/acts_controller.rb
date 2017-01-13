@@ -280,6 +280,16 @@ class ActsController < ApplicationController
   end
 
   def pdf
+    @act = Act.find_by_id(params[:act_id])
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "#{@act.name}-#{@act.date}",
+        template: '/acts/pdf'
+      end
+
+    end
   end
 
   private
