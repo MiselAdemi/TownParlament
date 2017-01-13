@@ -275,6 +275,13 @@ class ActsController < ApplicationController
     end
   end
 
+  def html
+    @act = Act.find_by_id(params[:act_id])
+  end
+
+  def pdf
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_act
