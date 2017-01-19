@@ -4,6 +4,6 @@
   <%= link_to "Add Stav", prepare_stance_path(id: @clause.id) , method:"post", class: "btn btn-primary", remote: true %>
 
    <% @clause.stances.each do |stance| %>
-     <%= render partial: "stance_info", locals: { "@stance": stance } %>
+     <%= render partial: "stance_info", locals: { "@stance" => stance } %>
    <% end %>
 </div>

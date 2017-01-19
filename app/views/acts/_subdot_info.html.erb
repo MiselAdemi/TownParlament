@@ -4,6 +4,6 @@
   <%= link_to "Add Paragraf", prepare_paragraph_path(id: @subdot.id) , method:"post", class: "btn btn-primary", remote: true %>
 
   <% @subdot.paragraphs.each do |paragraph| %>
-    <%= render partial: "paragraph_info", locals: { "@paragraph": paragraph } %>
+    <%= render partial: "paragraph_info", locals: { "@paragraph" => paragraph } %>
   <% end %>
 </div>

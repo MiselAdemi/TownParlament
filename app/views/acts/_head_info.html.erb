@@ -4,6 +4,6 @@
   <%= link_to "Add Odredba", prepare_regulation_path(id: @head.id), method:"post",class: "btn btn-primary", remote: true %>
 
   <% @head.regulations.each do |regulation| %>
-    <%= render partial: "regulation_info", locals: { "@regulation": regulation } %>
+    <%= render partial: "regulation_info", locals: { "@regulation" => regulation } %>
   <% end %>
 </div>

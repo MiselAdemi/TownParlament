@@ -4,6 +4,6 @@
   <%= link_to "Add Podtacka", prepare_subdot_path(id: @dot.id) , method:"post", class: "btn btn-primary", remote: true %>
 
   <% @dot.subdots.each do |subdot| %>
-    <%= render partial: "subdot_info", locals: { "@subdot": subdot } %>
+    <%= render partial: "subdot_info", locals: { "@subdot" => subdot } %>
   <% end %>
 </div>
