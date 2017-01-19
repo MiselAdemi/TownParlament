@@ -4,6 +4,6 @@
 	<%= link_to "Add Clan", prepare_clause_path(id: @subject.id) , method:"post", class: "btn btn-primary", remote: true %>
 
   <% @subject.clauses.each do |clause| %>
-    <%= render partial: "clause_info", locals: { "@clause": clause } %>
+    <%= render partial: "clause_info", locals: { "@clause" => clause } %>
   <% end %>
 </div>

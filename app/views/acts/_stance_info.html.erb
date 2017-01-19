@@ -4,6 +4,6 @@
   <%= link_to "Add Tacka", prepare_dot_path(id: @stance.id) , method:"post", class: "btn btn-primary", remote: true %>
 
   <% @stance.dots.each do |dot| %>
-    <%= render partial: "dot_info", locals: { "@dot": dot } %>
+    <%= render partial: "dot_info", locals: { "@dot" => dot } %>
   <% end %>
 </div>
