@@ -4,7 +4,10 @@
   <h3>Sorry, there are no acts in the database :(</h3>
   <p>Ask some alderman to add them :)</p>
 <% else %>
-  <h1>Listing Acts</h1>
+  <h1 class="col-lg-6">Listing Acts</h1>
+  <% if current_user.alderman? %>
+    <%= link_to('<button type="button" class="btn btn-primary">New Act</button>'.html_safe, new_act_path, :class => "new-act-btn pull-right") %>
+  <% end %>
 
   <table class="table table-striped">
     <thead>
@@ -23,15 +26,15 @@
           <td><%= act.name %></td>
 
           <% if act.status %>
-            <td><a class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></a></td>
+            <td><a class="btn text-success"><span class="glyphicon glyphicon-ok"></span></a></td>
           <% else %>
-            <td><a class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
+            <td><a class="btn text-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
           <% end %>
-          <td><%= link_to('<button type="button" class="btn btn-info">Show</button>'.html_safe, act) %></td>
+          <td><%= link_to('<button type="button" style="background: transparent" class="btn text-info"><span class="glyphicon glyphicon-file"></span></button>'.html_safe, act) %></td>
 
           <td>
             <% if current_user.alderman? %>
-              <%= link_to('<button type="button" class="btn btn-warning">Edit</button>'.html_safe, edit_act_path(act)) %>
+              <%= link_to('<button type="button" style="background: transparent" class="btn text-warning"><span class="glyphicon glyphicon-pencil"></span></button>'.html_safe, edit_act_path(act)) %>
             <% end %>
           </td>
 
@@ -54,7 +57,4 @@
   </table>
 
   <br>
-<% end %>
-<% if current_user.alderman? %>
-  <%= link_to('<button type="button" class="btn btn-primary">New Act</button>'.html_safe, new_act_path) %>
 <% end %>
