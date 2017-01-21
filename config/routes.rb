@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users
-  root :to => "home#index"
   get "home/index"
   get "home/meeting"
 
   get "/admin" => "admin/base#index", :as => "admin"
+
+  authenticated :user do
+    root 'acts#index', as: :authenticated_root
+  end
+
+  root :to => "home#index"
 
   namespace "admin" do
     resources :users

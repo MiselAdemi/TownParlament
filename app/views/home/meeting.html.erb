@@ -49,7 +49,7 @@
               <% unless amandment.status == "approved" %>
                 <% if amandment.act.status == "approved" %>
 
-                  <%= link_to('<button type="button" class="btn btn-primary">Approve</button>'.html_safe, pages_meeting_path(:amandman => amandment, :akt_id => amandment.act)) %>
+                  <%= link_to('<button type="button" class="btn btn-primary">Approve</button>'.html_safe, home_meeting_path(:amandman => amandment, :akt_id => amandment.act)) %>
 
                 <% else %>
 

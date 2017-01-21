@@ -1,11 +1,11 @@
 class SearchController < ApplicationController
-	def index
-		@result = nil
-	end
+  def index
+    @result = nil
+  end
 
-	def perform
-		@result = Searchable.search(params[:search])
+  def perform
+    @result = Searchable.search(params[:search])
 
-		render :index
-	end
+    render :index
+  end
 end
