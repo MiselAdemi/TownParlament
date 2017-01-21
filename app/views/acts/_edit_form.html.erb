@@ -1,12 +1,12 @@
 <script>
-$(document).ready(function(){
-  $('input[type="submit"][value="Update Act"]').click( function(e){
-    if(!$('#new_amandment')[0].checkValidity()){
-      e.preventDefault();
-      alert("Potrebno je popuniti sva polja vezana za amandman!");
-    }
+  $(document).ready(function(){
+    $('input[type="submit"][value="Update Act"]').click( function(e){
+      if(!$('#new_amandment')[0].checkValidity()){
+        e.preventDefault();
+        alert("Potrebno je popuniti sva polja vezana za amandman!");
+      }
+    });
   });
-});
 </script>
 
 <%= form_for @act, html: { class:"form-horizontal" }, remote:true do |f| %>
@@ -14,9 +14,9 @@ $(document).ready(function(){
     <div id="error_explanation">
       <h2><%= pluralize(@act.errors.count, "error") %> prohibited this act from being saved:</h2>
       <ul>
-        <% @act.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
+      <% @act.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
       </ul>
     </div>
   <% end %>
@@ -28,14 +28,14 @@ $(document).ready(function(){
   <div class="form-group">
     <label class="col-md-4 control-label" for="textinput">Drzava</label>
     <div class="col-md-4">
-      <%= f.text_field :state, class: "form-control input-md", required: true %>
-    </div>
+    <%= f.text_field :state, class: "form-control input-md", required: true %>
+   </div>
   </div>
 
   <div class="form-group">
     <label class="col-md-4 control-label" for="textinput">Naziv</label>
     <div class="col-md-4">
-      <%= f.text_field :name, class: "form-control input-md", required: true %>
+    <%= f.text_field :name, class: "form-control input-md", required: true %>
     </div>
   </div>
 
@@ -64,7 +64,7 @@ $(document).ready(function(){
 
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Submit", :class => "btn btn-default" %>
   </div>
 
 <% end %>
@@ -76,9 +76,9 @@ $(document).ready(function(){
       <h2><%= pluralize(@amandment.errors.count, "error") %> prohibited this amandment from being saved:</h2>
 
       <ul>
-        <% @amandment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
+      <% @amandment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
       </ul>
     </div>
   <% end %>
@@ -86,7 +86,7 @@ $(document).ready(function(){
   <div class="form-group">
     <label class="col-md-4 control-label" for="textinput">Datum Amandmana</label>
     <div class="col-md-4">
-      <%= fa.date_select :date, class: "form-control input-md", required: true %>
+    <%= fa.date_select :date, class: "form-control input-md", required: true %>
     </div>
   </div>
 
@@ -120,25 +120,64 @@ $(document).ready(function(){
 <% main_head = @act.heads.where(category: "main").first %>
 <% end_head = @act.heads.where(category: "end").first %>
 
-<!-- GLAVE -->
-<div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <div class="form-group">
-      <label class="control-label" >Uvodni dio</label>
-      <button type="button" class="btn btn-primary  info-head-button" data-toggle="modal" data-target="#intro-head-modal" <%= "disabled" unless intro_head.nil? %> >Add glava</button>
+  <!-- GLAVE -->
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="form-group">
+        <label class="control-label" >Uvodni dio</label>
+          <button type="button" class="btn btn-primary  info-head-button" data-toggle="modal" data-target="#intro-head-modal" <%= "disabled" unless intro_head.nil? %> >Add glava</button>
+      </div>
     </div>
   </div>
-</div>
 
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-4 intro-heads-place">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-4 intro-heads-place">
     <% if intro_head %>
-      <%= render partial: "head_info", locals: { "@head": intro_head } %>
+      <%= render partial: "head_info", locals: { "@head" => intro_head } %>
     <% end %>
+    </div>
   </div>
-</div>
 
-<!-- GLAVE -->
-<div class="row">
-  <div class="col-md-4 col-m
+    <!-- GLAVE -->
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="form-group">
+        <label class="control-label" >Glavni dio</label>
+          <button type="button" class="btn btn-primary main-head-button" data-toggle="modal" data-target="#main-head-modal" <%= "disabled" unless main_head.nil? %> >Add glava</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-4 main-heads-place">
+    <% if main_head %>
+      <%= render partial: "head_info", locals: { "@head" => main_head } %>
+    <% end %>
+    </div>
+  </div>
+
+    <!-- GLAVE -->
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="form-group">
+        <label class="control-label" >Zavrsni dio</label>
+          <button type="button" class="btn btn-primary end-head-button" data-toggle="modal" data-target="#end-head-modal" <%= "disabled" unless end_head.nil? %> >Add glava</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-4 end-heads-place">
+    <% if end_head %>
+      <%= render partial: "head_info", locals: { "@head" => end_head } %>
+    <% end %>
+    </div>
+  </div>
+
+  <%= render "head_introduction_modal" %>
+  <%= render "head_main_modal" %>
+  <%= render "head_end_modal" %>
+  <div class="modal-place"></div>

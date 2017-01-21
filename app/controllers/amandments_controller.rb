@@ -1,10 +1,10 @@
-class AmandmenController < ApplicationController
-  before_action :set_amandman, only: [:show, :edit, :update, :destroy]
+class AmandmentsController < ApplicationController
+  before_action :set_amandmant, only: [:show, :edit, :update, :destroy]
 
   # GET /amandmen
   # GET /amandmen.json
   def index
-    @amandmen = Amandman.all
+    @amandments = Amandment.all
   end
 
   # GET /amandmen/1
@@ -16,7 +16,7 @@ class AmandmenController < ApplicationController
 
   # GET /amandmen/new
   def new
-    @amandman = Amandman.new
+    @amandment = Amandment.new
     @meeting = Meeting.find(1)
   end
 
@@ -27,16 +27,16 @@ class AmandmenController < ApplicationController
   # POST /amandmen
   # POST /amandmen.json
   def create
-    @amandman = Amandman.new(amandman_params)
+    @amandment = Amandment.new(amandmant_params)
     @amandment.user = current_user
 
     respond_to do |format|
-      if @amandman.save
-        format.html { redirect_to @amandman, notice: 'Amandman was successfully created.' }
-        format.json { render :show, status: :created, location: @amandman }
+      if @amandment.save
+        format.html { redirect_to @amandment, notice: 'Amandman was successfully created.' }
+        format.json { render :show, status: :created, location: @amandment }
       else
         format.html { render :new }
-        format.json { render json: @amandman.errors, status: :unprocessable_entity }
+        format.json { render json: @amandment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -45,12 +45,12 @@ class AmandmenController < ApplicationController
   # PATCH/PUT /amandmen/1.json
   def update
     respond_to do |format|
-      if @amandman.update(amandman_params)
-        format.html { redirect_to @amandman, notice: 'Amandman was successfully updated.' }
-        format.json { render :show, status: :ok, location: @amandman }
+      if @amandment.update(amandmant_params)
+        format.html { redirect_to @amandment, notice: 'Amandman was successfully updated.' }
+        format.json { render :show, status: :ok, location: @amandment }
       else
         format.html { render :edit }
-        format.json { render json: @amandman.errors, status: :unprocessable_entity }
+        format.json { render json: @amandment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -58,22 +58,23 @@ class AmandmenController < ApplicationController
   # DELETE /amandmen/1
   # DELETE /amandmen/1.json
   def destroy
+    client = Connection::MarkLogic.new.client
     client.send_corona_request("/v1/documents?uri=/amandments/amandment_#{@amandment.id}.xml", :delete)
-    @amandman.destroy
+    @amandment.destroy
     respond_to do |format|
-      format.html { redirect_to amandmen_url, notice: 'Amandman was successfully destroyed.' }
+      format.html { redirect_to home_meeting_path, notice: 'Amandman was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_amandman
-      @amandman = Amandman.find(params[:id])
+    def set_amandmant
+      @amandment = Amandment.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def amandman_params
+    def amandmant_params
       params.require(:amandment).permit(:date, :content, :explanation, :rating, :act_id, :owner_id)
     end
 end
