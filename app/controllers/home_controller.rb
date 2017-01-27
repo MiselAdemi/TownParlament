@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   end
 
   def meeting
+    redirect_to acts_path and return if current_user.citizen?
     unless params[:akt].nil?
       @akt = Act.find(params[:akt])
       @akt.status = "approved"

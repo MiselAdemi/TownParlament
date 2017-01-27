@@ -38,7 +38,7 @@
             <% end %>
           </td>
 
-          <% if act.user.try(:id) == current_user.id %>
+          <% if act.try(:user_id) == current_user.id %>
 
             <td><%= link_to('<button type="button" class="btn btn-danger">Destroy</button>'.html_safe, act, method: :delete, data: { confirm: 'Are you sure?' }) %></td>
 

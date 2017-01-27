@@ -73,6 +73,6 @@ class User < ActiveRecord::Base
   private
 
   def add_citizen_role
-    make_alderman
+    make_admin
   end
 end

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>TownParlament</title>
-		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-		<%= csrf_meta_tags %>
-	</head>
-	<body>
+  <head>
+    <title>TownParlament</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
 
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -23,21 +23,16 @@
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <li><%= link_to "All Acts", acts_path %></li>
-            <li><%= link_to "New Act", new_act_path %></li>
+            <li><%= link_to "All Amandments", amandments_path %></li>
             <li><%= link_to "Search", search_path %></li>
-
-            <% if !current_user.citizen? %>
-              <li><%= link_to "All Amandments", amandments_path %></li>
-            <% end %>
-
-            <% if current_user.assembly_president? %>
+            <% if current_user.assembly_president? or current_user.alderman? %>
+              <li><%= link_to "New Act", new_act_path %></li>
               <li><%= link_to "Session", home_meeting_path %></li>
             <% end %>
 
-            <li><%= link_to "Account settings", edit_user_registration_path %></li>
-
-            <% if current_user.admin? %>
-              <li><%= link_to "Admin", admin_path %></li>
+            <% if current_user.assembly_president? %>
+              <li><%= link_to "New Act", new_act_path %></li>
+              <li><%= link_to "Session", home_meeting_path %></li>
             <% end %>
 
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>

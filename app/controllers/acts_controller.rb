@@ -33,6 +33,7 @@ class ActsController < ApplicationController
     @meeting = Meeting.find(1)
     init_heads
     redirect_to root_path, notice: 'You cannot add new act when Session is in progress!' and return if @meeting.status
+    redirect_to root_path and return if current_user.citizen?
   end
 
   # GET /acts/1/edit
@@ -47,6 +48,7 @@ class ActsController < ApplicationController
   # POST /acts.json
   def create
     @act = Act.new(act_params)
+    @act.user = current_user
 
     if @act.save
       session[:heads].each do |head_id|

@@ -8,8 +8,10 @@
     <table class="table table-striped">
       <thead>
         <th style="width: 70%">Act name</th>
-        <th style="width: 5%">Votes</th>
-        <th style="width: 5%">Approve</th>
+        <% if current_user.assembly_president? %>
+          <th style="width: 5%">Votes</th>
+          <th style="width: 5%">Approve</th>
+        <% end %>
         <th style="width: 5%">Refuse</th>
          <th style="width: 5%">Show</th>
       </thead>
@@ -18,8 +20,10 @@
           <% if act.status!="approved" %>
             <tr>
               <td><%= act.name %></td>
-              <td><input type="number" min="-100" max="100"></td>
-              <td><%= link_to('<button type="button" class="btn btn-primary">Approve</button>'.html_safe, home_meeting_path(:akt => act)) %></td>
+              <% if current_user.assembly_president? %>
+                <td><input type="number" min="-100" max="100"></td>
+                <td><%= link_to('<button type="button" class="btn btn-primary">Approve</button>'.html_safe, home_meeting_path(:akt => act)) %></td>
+              <% end %>
               <td><%= link_to('<button type="button" class="btn btn-danger">Refuse</button>'.html_safe, act, method: :delete, data: { confirm: 'Are you sure?' }) %></td>
               <td><%= link_to('<button type="button" class="btn btn-info">Show</button>'.html_safe, act) %></td>
             </tr>
